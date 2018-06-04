@@ -22,7 +22,7 @@ message("OPENGL FOUND " ${OPENGL_FOUND} " " ${OPENGL_GLU_FOUND})
 add_executable(${PROJECT_NAME} ${SRC} ${STB})
 
 if (UNIX)
-    find_library(GLEW libGLEW.a HINTS ${INCLUDEDIR}/GLEW/lib/Release/Mac)
+    find_library(GLEW libGLEW.a HINTS ${INCLUDEDIR}/GLEW/lib/Release/Unix)
     find_library(LIBVC15 libglfw3.a HINTS ${INCLUDEDIR}/GLFW)
 else()
     find_library(GLEW glew32s HINTS ${INCLUDEDIR}/GLEW/lib/Release/x64)
