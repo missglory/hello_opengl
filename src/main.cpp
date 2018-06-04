@@ -7,6 +7,8 @@
 #include "Shader.h"
 #include <iostream>
 #include "Texture.h"
+#include "vendor/glm/glm.hpp"
+#include "vendor/glm/gtc/matrix_transform.hpp"
 
 int main(void)
 {
@@ -62,18 +64,25 @@ int main(void)
 		2, 3, 0
 	};
 
+	GlCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+	GlCall(glEnable(GL_BLEND));
 	//index buffer object
 	IndexBuffer ib(indices, 6 * sizeof(unsigned int));
 
 	float r = 0.0f;
 	float incr = 0.05f;
 
+	glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-0.9f, 0, 0));
+
+	glm::mat4 mvp = proj * view;
+
 	Shader shader("../res/shaders/basic.shader");
 	
 	Texture tx("../res/textures/wp.png");
 	tx.Bind(0);
 	shader.SetUniform1i("u_Texture", 0);
-
+	shader.SetUniformMat4f("u_MVP", mvp);
 
 	va.Unbind();
 	vb.Unbind();
@@ -88,6 +97,7 @@ int main(void)
 
 		//shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
 		shader.Bind();
+		shader.SetUniform1f("u_Texture", 0);
 		//va.Bind(); // 1.bind buffer
 		////GlCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (const void*)0));
 		////GlCall(glEnableVertexAttribArray(0)); // 2. setup layout for buffer
