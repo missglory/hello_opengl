@@ -5,7 +5,6 @@
 #include <sstream>
 #include "Renderer.h"
 
-
 ShaderSrc Shader::Parse(const std::string& filepath) {
 	std::ifstream ifs(filepath);
 	if (!ifs.is_open()) {
@@ -45,7 +44,7 @@ uint Shader::CreateShader(uint type, const std::string& source) {
 	if (result == GL_FALSE) {
 		int length;
 		GlCall(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length));
-		char* message = (char*)alloca(sizeof(char) * length); // alloca() for stack allocation dynamically
+		char* message = (char*)alloca(sizeof(char) * length); // alloca() for stack allocation at runtime
 		GlCall(glGetShaderInfoLog(id, length, &length, message));
 		std::cout << "failed to compile "
 			<< (type == GL_VERTEX_SHADER ? "vertex" : "fragment")
@@ -107,7 +106,7 @@ void Shader::SetUniform1f(const std::string& name, float value)
 
 void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
 {
-	GlCall(glUniform4f(GetUniformLocation(name), v0, v1, v2, v3)); //rgba	
+	GlCall(glUniform4f(GetUniformLocation(name), v0, v1, v2, v3));
 }
 
 int Shader::GetUniformLocation(const std::string& name)
@@ -125,5 +124,10 @@ int Shader::GetUniformLocation(const std::string& name)
 	
 	locationCache[name] = location;
 	return location;
+}
+
+void Shader::SetUniformMat4f(const std::string& name, glm::mat4& matrix)
+{
+	GlCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
 }
 
