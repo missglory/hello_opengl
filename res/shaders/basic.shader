@@ -6,17 +6,19 @@ layout(location = 1) in vec3 vertexColor;
 layout(location = 2) in vec3 normal;
 uniform mat4 proj;
 uniform mat4 model;
+uniform mat4 ortho;
+uniform mat4 mvp;
 
 out vec2 v_TexCoord;
 out vec3 theColor;
 
 void main()
 {
-	vec4 p = vec4(position, 1.0);
-	vec4 modelp = model * p;
-	vec4 projp = proj * modelp;
-	gl_Position = projp;
-//	gl_Position = vec4(position, 1.0);
+	//vec4 p = vec4(position, 1.0);
+	//vec4 orth = ortho * p;
+	//vec4 translated = model * orth;
+	//vec4 newp = proj * translated;
+	gl_Position = mvp * vec4(position, 1.0);
 	theColor = vertexColor;
 };
 

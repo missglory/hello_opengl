@@ -26,7 +26,8 @@ int main(void)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* Create a windowed mode window and its OpenGL context */
-	float width = 640, height = 480;
+	float width = 640 * 2, 
+		height = 480 * 2;
 	window = glfwCreateWindow((int)width, (int)height, "Hello cube", NULL, NULL);
 	if (!window)
 	{
@@ -160,8 +161,6 @@ int main(void)
 	float r = 0.0f;
 	float incr = 0.05f;
 
-	glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -2.0f, 2.0f, -1.0f, 1.0f);
-	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
 	Shader shader("../res/shaders/basic.shader");
 	
@@ -181,24 +180,43 @@ int main(void)
 
 	glm::vec3 translation(0.0f, 0.0f, 0.0f);
 
+	glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.0f, 1.0f, -2.0f, 2.0f);
+	//glm::mat4 proj(1.0f);
+	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+	float rotation = 60.0f;
+	float persp = 60.0f;
+	float viewParams[] = { 3.0f, 4.0f, -3.0f };
+	
+	GlCall(glEnable(GL_DEPTH_TEST));
+	GlCall(glDepthFunc(GL_LESS));
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
-		GlCall(glClear(GL_COLOR_BUFFER_BIT));
+		GlCall(glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT));
 
 		ImGui_ImplGlfwGL3_NewFrame();	
 
-		glm::mat4 model = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, -5.0f));
-		glm::mat4 projj = glm::perspective(60.f, width / height, 0.1f, 10.0f);
-		glm::mat4 mvp = proj * view; /* * model; */
+		glm::mat4 model = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f));
+		glm::mat4 projj = glm::perspective(glm::radians(persp), (float)width / (float)height, 0.1f, 100.0f);
+		glm::mat4 View = glm::lookAt(
+			glm::vec3(viewParams[0], viewParams[1], viewParams[2]), // Camera is at (4,3,3), in World Space
+			glm::vec3(0, 0, 0), // and looks at the origin
+			glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
+		);
+		glm::mat4 rotate = glm::rotate(glm::mat4(), glm::radians(rotation), glm::vec3(1.0f, 0.0f, 0.0f));
+		void* rotatep = &rotate[0][0];
 		glm::mat4 transl = glm::translate(glm::mat4(1.0f), translation);
-		glm::mat4 modeln = proj * transl;
+		//glm::mat4 modeln = proj * transl;
+		glm::mat4 modeln = model * transl;
+		glm::mat4 mvp = projj * transl * View; /* * model; */
 		glm::mat4 projn = proj * projj;
-		
 		//shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
 		shader.Bind();
-		shader.SetUniformMat4f("model", modeln);
-		shader.SetUniformMat4f("proj", proj); 
+		//shader.SetUniformMat4f("model", mvp);
+		shader.SetUniformMat4f("mvp", mvp);
+		shader.SetUniformMat4f("ortho", proj);
+		shader.SetUniformMat4f("model", model);
+		shader.SetUniformMat4f("proj", projj); 
 		shader.SetUniform1f("u_Texture", 0);
 		
 		
@@ -211,7 +229,10 @@ int main(void)
 
 
 		{
-            ImGui::SliderFloat3("translation", &translation.x, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
+            ImGui::SliderFloat3("translation", &translation.x, -7.0f, 7.0f);
+			ImGui::SliderFloat3("view", viewParams, -10.0f, 10.0f);
+			ImGui::SliderFloat("rotate", &rotation, -180.f, 180.f);
+			ImGui::SliderFloat("persp", &persp, -100.0f, 100.0f);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         }
 		
