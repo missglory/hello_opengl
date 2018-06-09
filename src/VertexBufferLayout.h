@@ -21,7 +21,7 @@ struct VBElem {
 typedef std::vector<VBElem> VBElems;
 
 class VertexBufferLayout {
-public:
+private:
 	VBElems elems;
 	unsigned int stride;
 public:
