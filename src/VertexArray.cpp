@@ -28,13 +28,7 @@ void VertexArray::AddBuffer(VertexBuffer& vb, VertexBufferLayout& layout)
 	unsigned int offset = 0;
 	for (int i = 0; i < elems.size(); i++) {
 		const VBElem& elem = elems[i];
-		
-
-		/*if (i == 3) {
-			offset = 0;
-		}*/
-		
-			
+					
 		GlCall(glVertexAttribPointer(i, elem.count, elem.type, elem.normalized, layout.GetStride(), (const void*)offset));
 		GlCall(glEnableVertexAttribArray(i));
 		offset += elem.count * VBElem::SizeOfType(elem.type);

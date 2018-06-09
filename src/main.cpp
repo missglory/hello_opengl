@@ -82,7 +82,7 @@ int main(void)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
-	Vertex verticeees[] = {
+	/*Vertex verticeees[] = {
 		{vec3(1.0f, 2.0f, 3.0f), vec3(4.0f, 5.0f, 6.0f), vec3(7.0f, 8.0f, 9.0f) },
 		{ vec3(1.0f, 2.0f, 3.0f), vec3(4.0f, 5.0f, 6.0f), vec3(7.0f, 8.0f, 9.0f) }
 	};
@@ -91,7 +91,7 @@ int main(void)
 	for (int i = 0; i < 3 * 3 * 2; i++) {
 		std::cout << (*((float*)p + i)) << " ";
 	}
-	std::cout << "\n";
+	std::cout << "\n";*/
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(WIDTH, HEIGHT, "Hello cube", NULL, NULL);
@@ -129,7 +129,6 @@ int main(void)
 	unsigned int indices[]{
 		0, 1, 2,
 		2, 3, 0
-
 	};
 
 	//enable blending
@@ -146,7 +145,7 @@ int main(void)
 	// ".." because I execute from build dir
 	Shader shader("../res/shaders/basic.shader");
 
-	Texture tx("../res/textures/wp.bmp");
+	Texture tx("../res/textures/crate.bmp");
 	std::vector<std::string> CMvector = {
 		"../res/textures/wp.bmp",
 		"../res/textures/wp1.bmp",
@@ -179,6 +178,7 @@ int main(void)
 	//glm::mat4 proj(1.0f);
 	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 	float rotation = 0.0f;
+	float rotationManual = 0.0f;
 	float persp = 60.0f;
 	float viewParams[] = { 3.0f, 4.0f, -3.0f };
 	
@@ -214,8 +214,8 @@ int main(void)
 		glm::mat4 projn = proj * projj;
 		
 		
+		mvp = glm::rotate(mvp, radians(rotationManual), vec3(0.0f, 1.0f, 0.0f));
 		mvp = glm::rotate(mvp, radians(rotation), vec3(1.0f, 0.0f, 0.0f));
-			
 		//bind buffer and send uniforms
 		shader.Bind();
 		shader.SetUniformMat4f("mvp", mvp);
@@ -231,6 +231,7 @@ int main(void)
 		{
             ImGui::SliderFloat3("translation", &translation.x, -7.0f, 7.0f);
 			ImGui::SliderFloat3("view", viewParams, -10.0f, 10.0f);
+			ImGui::SliderFloat("rotate", &rotationManual, -90.0f, 90.0f);
 			//ImGui::SliderFloat("rotate", &rotation, -180.f, 180.f);
 			ImGui::SliderFloat("persp", &persp, -100.0f, 100.0f);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);

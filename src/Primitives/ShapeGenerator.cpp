@@ -62,11 +62,11 @@ ShapeData ShapeGenerator::makeCube() {
 		vec3(+1.0f, +1.0f, -1.0f),  // 2
 		vec3(+0.0f, +0.0f, +1.0f),  // Color
 		vec3(+0.0f, +1.0f, +0.0f),  // Normal
-		vec3(+1.0f, +1.0f, -1.0f),  // 2
+		vec3(+1.0f, +0.0f, -1.0f),  // 2
 		vec3(-1.0f, +1.0f, -1.0f),  // 3
 		vec3(+1.0f, +1.0f, +1.0f),  // Color
 		vec3(+0.0f, +1.0f, +0.0f),  // Normal
-		vec3(0.0f, +1.0f, -1.0f),  // 3
+		vec3(0.0f, +0.0f, -1.0f),  // 3
 
 		vec3(-1.0f, +1.0f, -1.0f),  // 4
 		vec3(+1.0f, +0.0f, +1.0f),  // Color
@@ -88,7 +88,7 @@ ShapeData ShapeGenerator::makeCube() {
 		vec3(+1.0f, +1.0f, -1.0f),  // 8
 		vec3(+0.2f, +0.5f, +0.2f),  // Color
 		vec3(+1.0f, +0.0f, +0.0f),  // Normal
-		vec3(+1.0f, +1.0f, -1.0f),  // 8
+		vec3(+0.0f, +1.0f, -1.0f),  // 8
 		vec3(+1.0f, +1.0f, +1.0f),  // 9
 		vec3(+0.9f, +0.3f, +0.7f),  // Color
 		vec3(+1.0f, +0.0f, +0.0f),  // Normal
@@ -100,7 +100,7 @@ ShapeData ShapeGenerator::makeCube() {
 		vec3(+1.0f, -1.0f, -1.0f),  // 11
 		vec3(+0.5f, +0.7f, +0.5f),  // Color
 		vec3(+1.0f, +0.0f, +0.0f),  // Normal
-		vec3(+1.0f, 0.0f, -1.0f),  // 11
+		vec3(+0.0f, 0.0f, -1.0f),  // 11
 
 		vec3(-1.0f, +1.0f, +1.0f),  // 12
 		vec3(+0.7f, +0.8f, +0.2f),  // Color
@@ -109,11 +109,11 @@ ShapeData ShapeGenerator::makeCube() {
 		vec3(-1.0f, +1.0f, -1.0f),  // 13
 		vec3(+0.5f, +0.7f, +0.3f),  // Color
 		vec3(-1.0f, +0.0f, +0.0f),  // Normal
-		vec3(0.0f, +1.0f, -1.0f),  // 13
+		vec3(1.0f, +1.0f, -1.0f),  // 13
 		vec3(-1.0f, -1.0f, -1.0f),  // 14
 		vec3(+0.4f, +0.7f, +0.7f),  // Color
 		vec3(-1.0f, +0.0f, +0.0f),  // Normal
-		vec3(0.0f, 0.0f, -1.0f),  // 14
+		vec3(1.0f, 0.0f, -1.0f),  // 14
 		vec3(-1.0f, -1.0f, +1.0f),  // 15
 		vec3(+0.2f, +0.5f, +1.0f),  // Color
 		vec3(-1.0f, +0.0f, +0.0f),  // Normal
@@ -147,11 +147,11 @@ ShapeData ShapeGenerator::makeCube() {
 		vec3(-1.0f, -1.0f, +1.0f),  // 22
 		vec3(+0.5f, +0.8f, +0.5f),  // Color
 		vec3(+0.0f, -1.0f, +0.0f),  // Normal
-		vec3(0.0f, 0.0f, +1.0f),  // 22
+		vec3(0.0f, 1.0f, +1.0f),  // 22
 		vec3(+1.0f, -1.0f, +1.0f),  // 23
 		vec3(+0.9f, +1.0f, +0.2f),  // Color
 		vec3(+0.0f, -1.0f, +0.0f),  // Normal
-		vec3(+1.0f, 0.0f, +1.0f),  // 23
+		vec3(+1.0f, 1.0f, +1.0f),  // 23
 	};
 
 	ret.numVertices = NUM_ARRAY_ELEMENTS(stackVerts);
