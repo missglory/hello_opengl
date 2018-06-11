@@ -2,6 +2,7 @@
 #include <GL\glew.h>
 #include <Primitives/Vertex.h>
 
+//attempt to abstract cube's vertices 
 struct ShapeData
 {
 	ShapeData() :

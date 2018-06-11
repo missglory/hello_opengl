@@ -5,6 +5,9 @@
 #include <sstream>
 #include "Renderer.h"
 
+
+
+//for keeping both shaders in 1 file
 ShaderSrc Shader::Parse(const std::string& filepath) {
 	std::ifstream ifs(filepath);
 	if (!ifs.is_open()) {
@@ -56,6 +59,7 @@ uint Shader::CreateShader(uint type, const std::string& source) {
 	return id;
 }
 
+//private function for shader constructor
 uint Shader::CompileShader(const std::string &vertexShader, const std::string &fragmentShader) {
 	unsigned int program = glCreateProgram();
 	unsigned int vs = CreateShader(GL_VERTEX_SHADER, vertexShader);

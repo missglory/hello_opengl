@@ -1,7 +1,10 @@
 #include "Renderer.h"
 
 #include <iostream>
-bool GlLogCall(const char* func, const char* file, int line) {
+
+bool GlLogCall(const char* func, const char* file, int line) 
+//this is there, because I am lazy to create defines.cpp
+{
 	while (GLenum error = glGetError()) {
 		std::cout << file << ":[OpenGL error]line " << line << ": ";
 		printf("0x%02x\n", error);

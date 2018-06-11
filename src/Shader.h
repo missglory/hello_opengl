@@ -27,6 +27,5 @@ public:
 private:
 	ShaderSrc Parse(const std::string& filepath);
 	uint CreateShader(uint type, const std::string& source);
-	uint CompileShader(const std::string& vertexShader, const std::string& fragmentShader); // type int or uint ???
-	//uint GetUniformLocation(const std::string& name);
+	uint CompileShader(const std::string& vertexShader, const std::string& fragmentShader);
 };
