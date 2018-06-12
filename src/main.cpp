@@ -70,8 +70,8 @@ int main(void)
 	//Set vertex buffer & layout for vertex array
 	VertexArray va;
 
-	//3 floats for positions & color & normal and 2 more for texCoords
-	VertexBuffer vb(cube.vertices, cube.numVertices * sizeof(float) * 11);
+	//3 floats for positions & color & normal & texCoords
+	VertexBuffer vb(cube.vertices, cube.numVertices * sizeof(float) * 12);
 	VertexBufferLayout layout;
 	//push attrib pointers for position & colors & normals & textureCoords
 	//colors & normals are present but unused, I am lazy to clean them
