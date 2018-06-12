@@ -1,5 +1,4 @@
 #include "Renderer.h"
-
 #include <iostream>
 
 bool GlLogCall(const char* func, const char* file, int line) 

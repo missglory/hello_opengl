@@ -7,8 +7,9 @@
 
 
 
+ShaderSrc Shader::Parse(const std::string& filepath) 
 //for keeping both shaders in 1 file
-ShaderSrc Shader::Parse(const std::string& filepath) {
+{
 	std::ifstream ifs(filepath);
 	if (!ifs.is_open()) {
 		std::cout << "error reading shaders from file!!!\n";
@@ -35,13 +36,16 @@ ShaderSrc Shader::Parse(const std::string& filepath) {
 	return { ss[0].str(), ss[1].str() };
 }
 
-uint Shader::CreateShader(uint type, const std::string& source) {
+
+uint Shader::CreateShader(uint type, const std::string& source) 
+{
+//private routine for CompileShader
 	unsigned int id = glCreateShader(type);
 	const char *src = source.c_str();
 	GlCall(glShaderSource(id, 1, &src, nullptr));
 	GlCall(glCompileShader(id));
 
-	// TODO: Error handling
+	// Error handling
 	int result;
 	GlCall(glGetShaderiv(id, GL_COMPILE_STATUS, &result));
 	if (result == GL_FALSE) {
@@ -55,12 +59,12 @@ uint Shader::CreateShader(uint type, const std::string& source) {
 		GlCall(glDeleteShader(id));
 		return 0;
 	}
-
 	return id;
 }
 
-//private function for shader constructor
-uint Shader::CompileShader(const std::string &vertexShader, const std::string &fragmentShader) {
+uint Shader::CompileShader(const std::string &vertexShader, const std::string &fragmentShader) 
+//program creation & linking & cleanup, private
+{
 	unsigned int program = glCreateProgram();
 	unsigned int vs = CreateShader(GL_VERTEX_SHADER, vertexShader);
 	unsigned int fs = CreateShader(GL_FRAGMENT_SHADER, fragmentShader);
@@ -78,7 +82,7 @@ uint Shader::CompileShader(const std::string &vertexShader, const std::string &f
 
 Shader::Shader(const std::string& filepath)
 {
-	src = Parse("../res/shaders/basic.shader");
+	src = Parse(filepath);
 	renderer_id = CompileShader(src.vertex, src.fragment);
 	GlCall(glUseProgram(renderer_id));
 }

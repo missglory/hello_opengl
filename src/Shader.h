@@ -13,7 +13,7 @@ private:
 	uint renderer_id;
 	std::string filepath;
 	ShaderSrc src;
-	std::unordered_map<std::string, int> locationCache;
+	std::unordered_map<std::string, int> locationCache; // for optimization
 public:
 	Shader(const std::string & filepath);
 	~Shader();

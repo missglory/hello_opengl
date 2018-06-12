@@ -1,7 +1,6 @@
 #include "IndexBuffer.h"
 #include "Renderer.h"	
 
-//simple abstraction of IB
 IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count):
 	count(count)
 {

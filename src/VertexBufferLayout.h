@@ -2,6 +2,8 @@
 #include "defines.h"
 #include <vector>
 
+
+//helper struct for following class
 struct VBElem {
 	uint type;
 	uint count;
@@ -20,6 +22,8 @@ struct VBElem {
 
 typedef std::vector<VBElem> VBElems;
 
+//keeper of layout structure
+//VertexArray class shoult fill up AttribPointerArray with it's help
 class VertexBufferLayout {
 private:
 	VBElems elems;

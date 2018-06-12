@@ -56,6 +56,7 @@ int main(void)
 	glfwGetFramebufferSize(window, &framebufferWidth, &framebufferHeight);
 	glfwSetFramebufferSizeCallback(window, framebuffer_resize_callback);
 
+	//v-sync
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);
 
@@ -66,14 +67,21 @@ int main(void)
 	//vertices & indices
 	ShapeData cube = ShapeGenerator::makeCube();
 
-	//set vertex buffer & layout for vertex array
+	//There are some abstractions which I've stolen from Cherno:
+	//vertex array, shader, index buf etc. 
+	//They are supposed to be bound to corresponding GL objects through renderer_id members.
+	//All of them are simple and there is a little of code, so they are almost wrappers
+	
+	
+	//Set vertex buffer & layout for vertex array
 	VertexArray va;
 
 	//3 floats for positions & color & normal and 2 more for texCoords
 	VertexBuffer vb(cube.vertices, cube.numVertices * sizeof(float) * 11);
 	VertexBufferLayout layout;
-	//push pointers for vertices & colors & normals & textureCoords
+	//push attrib pointers for position & colors & normals & textureCoords
 	//colors & normals are present but unused, I am lazy to clean them
+	//texCoords = 3 floats - same reason
 	layout.Push<float>(3);
 	layout.Push<float>(3);
 	layout.Push<float>(3);
@@ -87,8 +95,8 @@ int main(void)
 	//index buffer object
 	IndexBuffer ib(cube.indices, cube.numIndices);
 
-	float r = 0.0f;
-	float incr = 2.5;
+	//rotation derivative
+	float dr = 2.5;
 
 	// parse shader
 	// ".." because I execute from build dir
@@ -126,6 +134,8 @@ int main(void)
 	//handle polygons depth problem
 	GlCall(glEnable(GL_DEPTH_TEST));
 	GlCall(glDepthFunc(GL_LESS));
+
+	//frame loop
 	while (!glfwWindowShouldClose(window))
 	{
 		/* clear buffers each frame to update depth & colors */
@@ -135,18 +145,18 @@ int main(void)
 		ImGui_ImplGlfwGL3_NewFrame();	
 
 		//MVP model 
-		glm::mat4 projj = glm::perspective(glm::radians(persp), ((float)WIDTH) / (float)HEIGHT, 0.1f, 100.0f);
+		glm::mat4 proj = glm::perspective(glm::radians(persp), ((float)WIDTH) / (float)HEIGHT, 0.1f, 100.0f);
 		glm::mat4 View = glm::lookAt(
 			glm::vec3(viewParams[0], viewParams[1], viewParams[2]), // Camera is at (4,3,3), in World Space
 			glm::vec3(0, 0, 0), // and looks at the origin
 			glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 		);
-		mat4 mvp = projj * View;
-		
+		mat4 mvp = proj * View;
 		mvp = glm::translate(mvp, glm::vec3(translation));
 		mvp = glm::rotate(mvp, radians(rotationManual), vec3(0.0f, 1.0f, 0.0f));
 		mvp = glm::rotate(mvp, radians(rotation), vec3(1.0f, 0.0f, 0.0f));
-		rotation += incr;
+		//keep spinning
+		rotation += dr;
 
 		//bind shader and send uniforms
 		shader.Bind();

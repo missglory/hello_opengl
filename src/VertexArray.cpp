@@ -21,6 +21,7 @@ void VertexArray::Unbind() const {
 
 
 void VertexArray::AddBuffer(VertexBuffer& vb, VertexBufferLayout& layout)
+//marking attributes of vertices
 {
 	Bind();
 	vb.Bind();
