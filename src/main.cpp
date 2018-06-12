@@ -12,15 +12,9 @@
 #include "vendor/glm/gtc/matrix_transform.hpp"
 #include "vendor/imgui-1.61/imgui.h"
 #include "vendor/imgui-1.61/examples/opengl3_example/imgui_impl_glfw_gl3.h"
-#include "Primitives/ShapeData.h"
 #include "Primitives/ShapeGenerator.h"
 #include "vendor/stb/stb_image.h"
-using glm::mat4;
-using glm::vec4;
-using glm::vec3;
-using glm::radians;
-using glm::rotate;
-
+#include "Primitives/ShapeData.h"
 
 void framebuffer_resize_callback(GLFWwindow* window, int fbW, int fbH)
 {
@@ -82,10 +76,10 @@ int main(void)
 	//push attrib pointers for position & colors & normals & textureCoords
 	//colors & normals are present but unused, I am lazy to clean them
 	//texCoords = 3 floats - same reason
-	layout.Push<float>(3);
-	layout.Push<float>(3);
-	layout.Push<float>(3);
-	layout.Push<float>(3);
+    layout.PushFloat(3);
+    layout.PushFloat(3);
+    layout.PushFloat(3);
+    layout.PushFloat(3);
 	va.AddBuffer(vb, layout);
 
 	//enable blending
@@ -151,10 +145,10 @@ int main(void)
 			glm::vec3(0, 0, 0), // and looks at the origin
 			glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 		);
-		mat4 mvp = proj * View;
+        glm::mat4 mvp = proj * View;
 		mvp = glm::translate(mvp, glm::vec3(translation));
-		mvp = glm::rotate(mvp, radians(rotationManual), vec3(0.0f, 1.0f, 0.0f));
-		mvp = glm::rotate(mvp, radians(rotation), vec3(1.0f, 0.0f, 0.0f));
+        mvp = glm::rotate(mvp, glm::radians(rotationManual), glm::vec3(0.0f, 1.0f, 0.0f));
+        mvp = glm::rotate(mvp, glm::radians(rotation), glm::vec3(1.0f, 0.0f, 0.0f));
 		//keep spinning
 		rotation += dr;
 

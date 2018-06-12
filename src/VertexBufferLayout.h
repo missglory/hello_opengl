@@ -31,25 +31,37 @@ private:
 public:
 	VertexBufferLayout() : stride(0) {}
 	~VertexBufferLayout() {}
-	template<typename T>
-	void Push(unsigned int count) {
-		static_assert(false);
-	}
-	template<>
-	void Push<float>(unsigned int count) {
-		elems.push_back({ GL_FLOAT, count, GL_FALSE });
-		stride += count * sizeof(GLfloat);
-	}
-	template<>
-	void Push<unsigned int>(unsigned int count) {
-		elems.push_back({ GL_UNSIGNED_INT, count, GL_FALSE });
-		stride += count * sizeof(GLuint);
-	}
-	template<>
-	void Push<unsigned char>(uint count) {
-		elems.push_back({ GL_UNSIGNED_BYTE, count, GL_TRUE });
-		stride += count * sizeof(GLubyte);
-	}
+//	template<typename T>
+//	void Push(unsigned int count) {
+//		static_assert(false);
+//	}
+//	template<>
+//	void Push<float>(unsigned int count) {
+//		elems.push_back({ GL_FLOAT, count, GL_FALSE });
+//		stride += count * sizeof(GLfloat);
+//	}
+//	template<>
+//	void Push<unsigned int>(unsigned int count) {
+//		elems.push_back({ GL_UNSIGNED_INT, count, GL_FALSE });
+//		stride += count * sizeof(GLuint);
+//	}
+//	template<>
+//	void Push<unsigned char>(uint count) {
+//		elems.push_back({ GL_UNSIGNED_BYTE, count, GL_TRUE });
+//		stride += count * sizeof(GLubyte);
+//	}
+    void PushFloat(uint count) {
+        elems.push_back(VBElem( GL_FLOAT, count, GL_FALSE ));
+        stride += count * sizeof(GLfloat);
+    }
+    void PushUint32(uint count) {
+        elems.push_back(VBElem( GL_UNSIGNED_INT, count, GL_FALSE ));
+        stride += count * sizeof(GLuint);
+    }
+    void PushUint8(uint count) {
+        elems.push_back(VBElem( GL_UNSIGNED_BYTE, count, GL_TRUE ));
+        stride += count * sizeof(GLubyte);
+    }
 	inline unsigned int GetStride() const { return stride; }
 	inline const VBElems& GetElems() const { return elems; }
 };

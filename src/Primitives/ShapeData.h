@@ -1,6 +1,6 @@
 #pragma once
-#include <GL\glew.h>
 #include "Vertex.h"
+#include "GL/glew.h"
 typedef unsigned int uint;
 
 struct ShapeData
